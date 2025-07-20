@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <%- include('./partials/head') %>
+  <title>Sign In</title>
+
+  <style>
+    body, html {
+      height: 100%;
+      margin: 0;
+      background: linear-gradient(135deg, #c3ecf5, #e0c3fc);
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    .form-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      animation: fadeIn 1s ease-in-out;
+    }
+
+    form {
+      width: 100%;
+      max-width: 400px;
+      padding: 30px;
+      border-radius: 15px;
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(10px);
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+      animation: slideUp 0.8s ease-out;
+      transition: all 0.3s ease;
+    }
+
+    form:hover {
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
+      transform: translateY(-2px);
+    }
+
+    h3 {
+      text-align: center;
+      margin-bottom: 20px;
+      color: #333;
+    }
+
+    label {
+      font-weight: 500;
+    }
+
+    .input-wrapper {
+      position: relative;
+      margin-bottom: 1rem;
+    }
+
+    .input-icon {
+      position: absolute;
+      top: 50%;
+      left: 10px;
+      transform: translateY(-50%);
+      color: #999;
+    }
+
+    .form-control {
+      padding-left: 35px;
+      transition: border 0.3s, box-shadow 0.3s;
+    }
+
+    .form-control:focus {
+      border-color: #6c63ff;
+      box-shadow: 0 0 5px rgba(108, 99, 255, 0.4);
+    }
+
+    .btn-primary {
+      width: 100%;
+      padding: 10px;
+      background-color: #6c63ff;
+      border: none;
+      transition: background-color 0.3s ease;
+    }
+
+    .btn-primary:hover {
+      background-color: #574b90;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes slideUp {
+      from {
+        transform: translateY(40px);
+        opacity: 0;
+      }
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <%- include('./partials/nav') %>
+
+  <div class="form-container">
+    <form action="/user/signin" method="post">
+      <h3>Sign In to Your Account</h3>
+
+      <div class="mb-3">
+        <label for="exampleInputEmail1" class="form-label">Email Address</label>
+        <div class="input-wrapper">
+          <i class="fa fa-envelope input-icon"></i>
+          <input type="email" name="email" class="form-control" id="exampleInputEmail1" required>
+        </div>
+        <div id="emailHelp" class="form-text">We'll never share your email.</div>
+      </div>
+
+      <div class="mb-3">
+        <label for="exampleInputPassword1" class="form-label">Password</label>
+        <div class="input-wrapper">
+          <i class="fa fa-lock input-icon"></i>
+          <input type="password" name="password" class="form-control" id="exampleInputPassword1" required>
+        </div>
+      </div>
+
+      <button type="submit" class="btn btn-primary mt-2">Sign In</button>
+    </form>
+  </div>
+
+  <%- include('./partials/scripts') %>
+  <!-- Optional: Smooth focus effect -->
+  <script>
+    document.querySelectorAll('.form-control').forEach(input => {
+      input.addEventListener('focus', () => {
+        input.parentElement.querySelector('.input-icon').style.color = '#6c63ff';
+      });
+      input.addEventListener('blur', () => {
+        input.parentElement.querySelector('.input-icon').style.color = '#999';
+      });
+    });
+  </script>
+</body>
+</html>

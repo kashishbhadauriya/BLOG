@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <%- include('./partials/head') %> <!-- Include head with Bootstrap, FontAwesome, etc -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #0d6efd;
+      --light-bg: #f8f9fa;
+      --font-family: 'Inter', sans-serif;
+    }
+
+    body {
+      font-family: var(--font-family);
+      background-color: var(--light-bg);
+      color: #333;
+    }
+
+    h2, h4, h5 {
+      font-weight: 700;
+    }
+
+    .blog-body {
+      font-size: 1.1rem;
+      line-height: 1.8;
+    }
+
+    .comment-card {
+      transition: transform 0.2s ease, background-color 0.3s ease;
+    }
+
+    .comment-card:hover {
+      background-color: #e9f1ff;
+      transform: translateY(-2px);
+    }
+
+    .btn-primary {
+      transition: background-color 0.3s ease, transform 0.2s ease;
+    }
+
+    .btn-primary:hover {
+      background-color: #084298;
+      transform: scale(1.05);
+    }
+
+    textarea:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.25);
+    }
+
+    img.cover-image {
+      transition: transform 0.5s ease;
+    }
+
+    img.cover-image:hover {
+      transform: scale(1.01);
+    }
+
+    .fade-in {
+      animation: fadeIn 0.7s ease-in-out both;
+    }
+
+    @keyframes fadeIn {
+      0% { opacity: 0; transform: translateY(20px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+<%- include('./partials/nav') %>
+
+<div class="container mt-5 fade-in">
+  <!-- Blog Title & Meta -->
+  <h2 class="mb-1 fw-bold"><%= blog.title %></h2>
+  <p class="text-muted mb-4">
+    By <strong><%= blog.createdBy.FullName %></strong> on 
+    <%= new Date(blog.createdAt).toLocaleString() %>
+  </p>
+  <% if (blog.coverImageURL) { %>
+    <img 
+      src="<%= blog.coverImageURL %>" 
+      alt="<%= blog.title %> Cover Image" 
+      class="img-fluid rounded shadow-sm mb-4 cover-image" 
+      style="width: 100%; height: auto; object-fit: contain; max-height: 600px;" 
+    />
+  <% } %>
+
+  <!-- Blog Like Button -->
+<!-- Since /blog is handled by app.js already -->
+<form action="/blog/<%= blog._id %>/like" method="POST">
+  <button type="submit" class="btn btn-outline-success">
+    👍 Like (<%= blog.likes?.length || 0 %>)
+  </button>
+</form>
+
+
+
+  <!-- Blog Body -->
+  <div class="blog-body mb-5">
+    <%= blog.body %>
+  </div>
+
+  <!-- Comments Section -->
+  <hr class="my-5" />
+  <h4 id="comments" class="mb-4">💬 Comments (<%= blog.comments?.length || 0 %>)</h4>
+<% blog.comments.forEach(comment => { %>
+  <div class="comment-card mb-3 p-3 bg-white border-start border-4 border-primary rounded shadow-sm">
+    <div class="fw-semibold text-primary mb-1">
+      <i class="fa fa-user-circle me-1"></i>
+      <%= comment.createdBy?.fullname || 'Anonymous' %>
+    </div>
+    <div class="text-dark mb-2">
+      <%= comment.text %>
+    </div>
+    <small class="text-muted d-block mb-2">
+      <%= new Date(comment.createdAt).toLocaleString() %>
+    </small>
+
+  </div>
+<% }) %>
+
+
+  <!-- Add Comment Form -->
+<!-- Add Comment Form -->
+<div class="mt-5">
+  <h5 class="mb-3 fw-semibold">📝 Add a Comment</h5>
+
+  <% if (currentUser) { %>
+   <form action="/blog/<%= blog._id %>/comments" method="POST" class="mb-4">
+  <div class="mb-3">
+    <label for="comment" class="form-label fw-semibold">Your Comment</label>
+    <textarea 
+      id="comment" 
+      name="comment" 
+      class="form-control shadow-sm" 
+      rows="4" 
+      placeholder="Write something thoughtful..." 
+      required
+    ></textarea>
+  </div>
+  <button type="submit" class="btn btn-primary shadow-sm">
+    <i class="fa fa-paper-plane me-1"></i> Post Comment
+  </button>
+</form>
+
+
+  <% } else { %>
+    <div class="alert alert-info">
+      Please <a href="/user/signin" class="text-primary fw-semibold">login</a> to comment on this blog.
+    </div>
+  <% } %>
+</div>
+
+
+<script>
+  // Smooth scroll to comments if link contains #comments
+  if (window.location.hash === "#comments") {
+    setTimeout(() => {
+      const commentSection = document.getElementById("comments");
+      if (commentSection) {
+        commentSection.scrollIntoView({ behavior: 'smooth' });
+      }
+    }, 300);
+  }
+</script>
+</body>
+</html>

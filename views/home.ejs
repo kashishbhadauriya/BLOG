@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include('./partials/head') %>
+    <title>Homepage</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <style>
+        body {
+            margin: 0;
+            padding-top: 70px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(-45deg, #e0f2fe, #f8fafc, #c7d2fe, #d1fae5);
+            background-size: 400% 400%;
+            animation: gradientMove 10s ease infinite;
+        }
+
+        @keyframes gradientMove {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .hero {
+            text-align: center;
+            padding: 60px 20px;
+            background: #ffffff;
+            border-radius: 20px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+            margin-bottom: 50px;
+            max-width: 900px;
+            margin-left: auto;
+            margin-right: auto;
+            animation: fadeIn 1s ease-out;
+        }
+
+        .container {
+            max-width: 840px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .blog-card {
+            background: white;
+            padding: 25px;
+            margin-bottom: 30px;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
+            animation: slideUp 0.6s ease-in-out;
+        }
+
+        .blog-card:hover {
+            transform: rotateY(6deg) translateY(-8px) scale(1.03);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        .blog-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #111827;
+        }
+
+        .blog-summary {
+            color: #374151;
+            margin: 10px 0 20px;
+        }
+
+        .btn-read {
+            background-color: #2563eb;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: background 0.3s ease, transform 0.3s ease;
+        }
+
+        .btn-read:hover {
+            background-color: #1142e6;
+            transform: scale(1.05);
+        }
+
+        .search-form {
+            background-color: #fff;
+            border: 1px solid #ced4da;
+            max-width: 900px;
+            margin: 0 auto 40px;
+            padding: 4px 8px;
+            border-radius: 50px;
+            box-shadow: 0 3px 8px rgba(0,0,0,0.05);
+        }
+
+        .search-form input[type="search"] {
+            height: 32px;
+            font-size: 0.9rem;
+            border: none;
+            padding: 0 10px;
+            background-color: transparent;
+            width: 70%;
+        }
+
+        .search-form input[type="search"]:focus {
+            outline: none;
+        }
+
+        .search-form button {
+    font-size: 0.9rem;
+    height: 32px;
+    padding: 0 16px;
+    border-radius: 50px;
+    margin-left: auto; /* shifts button to the right */
+}
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(40px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        footer {
+            background: #1e3a8a;
+            color: white;
+            text-align: center;
+            padding: 40px 20px;
+            margin-top: 80px;
+            border-top-left-radius: 40px;
+            border-top-right-radius: 40px;
+        }
+
+        footer a {
+            margin: 0 10px;
+            color: #93c5fd;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        footer a:hover {
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <%- include('./partials/nav') %>
+
+    <div class="container">
+        <section class="hero">
+            <h1>Welcome to the BlogHub</h1>
+            <p>Explore thought-provoking stories, tech tutorials, and creative insights shared by a passionate community.</p>
+        </section>
+
+        <!-- Search Bar -->
+    
+ <form action="/blog/search" method="GET" class="search-form d-flex align-items-center">
+            <input type="search" name="query" placeholder="🔍 Search blog title..." aria-label="Search" required />
+            <button class="btn btn-primary" type="submit">Search</button>
+        </form>
+
+
+       
+
+        <!-- Blog Post Card 1 -->
+        <div class="blog-card">
+            <h2 class="blog-title"><i class="fa fa-newspaper"></i> Welcome to Blogify</h2>
+            <p class="blog-summary">Browse a collection of tech blogs written by developers—covering Node.js, JavaScript, web development, and more.</p>
+            <p class="text-muted">Click below to explore all blog posts from our community.</p>
+            <a href="/blog/allblog" class="btn-read"><i class="fa fa-arrow-right"></i> View All Blogs</a>
+        </div>
+    </div>
+    <!-- Features Section -->
+<div class="blog-card">
+    <h2 class="blog-title"><i class="fa fa-bolt text-warning"></i> What You Can Do Here</h2>
+    <ul class="list-unstyled mt-3" style="line-height: 1.8; font-size: 1rem; color: #374151;">
+      <li><i class="fa fa-pen-nib text-primary me-2"></i> <strong>Create</strong> your own blog posts with a simple and clean editor.</li>
+      <li><i class="fa fa-eye text-success me-2"></i> <strong>Explore</strong> blogs written by others in the community.</li>
+      <li><i class="fa fa-comment-dots text-info me-2"></i> <strong>Comment</strong> on posts to share your thoughts and feedback.</li>
+      <li><i class="fa fa-user-circle text-dark me-2"></i> <strong>Manage your profile</strong> and see all your published blogs.</li>
+      <li><i class="fa fa-image text-danger me-2"></i> <strong>Upload cover images</strong> to make your blogs visually appealing.</li>
+      <li><i class="fa fa-search text-secondary me-2"></i> <strong>Search</strong> blog posts by title instantly using the search bar above.</li>
+    </ul>
+    <p class="text-muted mt-3">Whether you're a tech enthusiast, student, or creative writer — this platform is for you. Start sharing your ideas today!</p>
+  </div>
+  
+
+    <!-- Footer -->
+    <footer>
+        <h2>Stay Connected</h2>
+        <p>Follow us for more updates, blogs, and tips!</p>
+        <div>
+            <a href="mailto:2k23.csai2310628@gmail.com">
+                <i class="fa fa-envelope"></i> 2k23.csai2310628@gmail.com
+            </a>
+            <a href="tel:+919876543210">
+                <i class="fa fa-phone"></i> +91 8090279585
+            </a>
+            <a href="https://www.linkedin.com/in/kashish-bhadauriya-80781b316/" target="_blank">
+                <i class="fa fa-linkedin"></i> LinkedIn Profile
+            </a>
+        </div>
+        <p style="font-size: 0.9rem; margin-top: 20px;">&copy; 2025 Blogify. All rights reserved.</p>
+    </footer>
+
+    <%- include('./partials/scripts') %>
+</body>
+</html>

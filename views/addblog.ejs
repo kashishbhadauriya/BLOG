@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include('./partials/head') %>
+    <title>Add New Blog</title>
+    <style>
+        body {
+            background: linear-gradient(120deg, #e0f2fe, #f8fafc);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            padding-top: 70px;
+            margin: 0;
+        }
+
+        .form-wrapper {
+            max-width: 750px;
+            margin: 40px auto;
+            background: #ffffff;
+            padding: 40px 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            animation: slideUp 0.7s ease;
+        }
+
+        .form-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #1e3a8a;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .form-label {
+            font-weight: 600;
+            color: #374151;
+        }
+
+        .form-control {
+            border-radius: 8px;
+            padding: 10px 12px;
+            box-shadow: none;
+            border: 1px solid #ced4da;
+            transition: border 0.3s ease;
+        }
+
+        .form-control:focus {
+            border-color: #2563eb;
+            box-shadow: 0 0 0 0.2rem rgba(37, 99, 235, 0.25);
+        }
+
+        .btn-publish {
+            width: 100%;
+            background-color: #2563eb;
+            border: none;
+            padding: 12px;
+            color: white;
+            font-weight: 600;
+            font-size: 1.1rem;
+            border-radius: 10px;
+            transition: background 0.3s ease;
+        }
+
+        .btn-publish:hover {
+            background-color: #1e40af;
+        }
+
+        .user-info {
+            background: #f1f5f9;
+            padding: 15px 20px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            font-size: 0.95rem;
+            color: #334155;
+        }
+
+        .user-info strong {
+            display: block;
+            color: #0f172a;
+            font-size: 1rem;
+            margin-bottom: 5px;
+        }
+
+        .welcome-text {
+            text-align: center;
+            margin-top: 10px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #1d4ed8;
+        }
+        .btn-publish {
+    width: 100%;
+    background-color: #8b5cf6; /* Purple-500 */
+    border: none;
+    padding: 12px;
+    color: white;
+    font-weight: 600;
+    font-size: 1.1rem;
+    border-radius: 10px;
+    transition: background 0.3s ease;
+}
+
+.btn-publish:hover {
+    background-color: #6b21a8; /* Purple-700 */
+}
+
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(40px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+<body>
+    <%- include('./partials/nav') %>
+
+    <div class="container">
+        <div class="form-wrapper">
+            <div class="form-title">📝 Add a New Blog Post</div>
+
+            <% if (user) { %>
+                <div class="user-info">
+                    <strong>Logged in as:</strong>
+                    Name: <%= user.FullName %><br>
+                    Email: <%= user.email %><br>
+                    ID: <%= user._id %>
+                    <div class="welcome-text">Welcome <%= user.FullName %> 👋</div>
+                </div>
+            <% } %>
+
+            <form action="/blog" method="POST" enctype="multipart/form-data">
+                <div class="mb-3">
+                    <label for="coverimage" class="form-label">🖼 Cover Image</label>
+                    <input type="file" class="form-control" id="coverimage" name="coverimage">
+                </div>
+
+                <div class="mb-3">
+                    <label for="title" class="form-label">📌 Blog Title</label>
+                    <input type="text" class="form-control" id="title" name="title" placeholder="Enter your blog title here..." required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="content" class="form-label">✍️ Blog Content</label>
+                    <textarea class="form-control" id="content" name="body" rows="7" placeholder="Write your thoughts..." required></textarea>
+                </div>
+
+                <button type="submit" class="btn btn-publish">📤 Publish Blog</button>
+            </form>
+        </div>
+    </div>
+
+    <%- include('./partials/scripts') %>
+</body>
+</html>
