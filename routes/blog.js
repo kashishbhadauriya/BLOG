@@ -24,7 +24,7 @@ const upload = multer({ storage });
 
 router.get('/add-new', (req, res) => {
   if (!req.user) return res.redirect('/user/signin');
-  res.render('addBlog', { user: req.user });
+  res.render('addblog', { user: req.user });
 });
 
 
