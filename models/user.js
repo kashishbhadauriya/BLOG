@@ -17,6 +17,7 @@ const userSchema = new mongoose.Schema({
     required: true
   }
 });
+
 userSchema.statics.matchPassword = async function (email, password) {
   const user = await this.findOne({ email });
   if (!user) return null;

@@ -1,27 +1,27 @@
 const jwt = require('jsonwebtoken');
 
 function authenticateUser(req, res, next) {
-  const token = req.cookies.token; // Token stored in cookie
+  const token = req.cookies.token;
 
   if (!token) {
     res.locals.user = null;
     req.user = null;
-    return next(); // Proceed even if user not logged in
+    return next();
   }
 
   try {
-    const decodedUserFromJWT = jwt.verify(token, process.env.JWT_SECRET);
+    const decodedUser = jwt.verify(token, process.env.JWT_SECRET);
 
-    // ✅ Yeh do line yahi likhni hoti hain:
-    res.locals.user = decodedUserFromJWT;
-    req.user = decodedUserFromJWT;
+    // 🟢 Set user properly
+    res.locals.user = decodedUser || null;
+    req.user = decodedUser || null;
   } catch (err) {
-    console.error("❌ Invalid token:", err.message);
+    console.error("Invalid token:", err.message);
     res.locals.user = null;
     req.user = null;
   }
 
-  next(); // Move to next middleware/route
+  next();
 }
 
 module.exports = authenticateUser;

@@ -28,7 +28,6 @@ router.get('/add-new', (req, res) => {
 });
 
 
-
 router.post('/', upload.single('coverimage'), async (req, res) => {
   try {
     const { title, body } = req.body;
@@ -144,59 +143,6 @@ router.post('/:id/comments', async (req, res) => {
   }
 });
 
-
-// 👍 Like/Unlike Comment
-router.post('/comment/:id/like', async (req, res) => {
-  try {
-    const userId = req.user?._id || req.session?.userId;
-    if (!userId) return res.status(401).send('Unauthorized');
-
-    const blog = await Blog.findOne({ "comments._id": req.params.id });
-    if (!blog) return res.status(404).send('Blog not found');
-
-    const comment = blog.comments.id(req.params.id);
-    if (!comment) return res.status(404).send('Comment not found');
-
-    const alreadyLiked = comment.likes.some(id => id.toString() === userId.toString());
-
-    if (alreadyLiked) {
-      comment.likes = comment.likes.filter(id => id.toString() !== userId.toString());
-    } else {
-      comment.likes.push(userId);
-    }
-
-    await blog.save();
-    res.redirect('back');
-  } catch (err) {
-    console.error('Error liking comment:', err);
-    res.status(500).send('Server Error');
-  }
-});
-
-router.get('/blog/:id', async (req, res) => {
-  const blog = await Blog.findById(req.params.id)
-    .populate({
-      path: 'comments',
-      populate: { path: 'user', select: 'fullname' }  // ⬅️ populate username
-    });
-  res.render('blog-detail', { blog });
-});
-
-
-
-
-router.post('/blog/:id/comment', async (req, res) => {
-  const blog = await Blog.findById(req.params.id);
-
-  const newComment = {
-    text: req.body.text,
-    createdBy: req.user._id // ✅ Must be present from auth (like Passport.js)
-  };
-
-  blog.comments.push(newComment);
-  await blog.save();
-  res.redirect(`/blog/${req.params.id}`);
-});
 
 
 // Like Blog Route// ✅ Correct route path
